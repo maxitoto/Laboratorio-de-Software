@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    
+  "paths": {
+      /* Electron */
+      "@backend/*": ["./src/backend/*"],
+      "@backend/": ["./src/backend/"],
+
+      /* Shared */
+      "@shared/*": ["./src/shared/*"],
+      "@shared/": ["./src/shared/"],
+      "@models/*": ["./src/shared/models/*"],
+      "@models": ["./src/shared/models"],
+      "@utils/*": ["./src/shared/utils/*"],
+      "@utils": ["./src/shared/utils"],
+
+      /* Frontend */
+      "@frontend/*": ["./src/frontend/*"],
+      "@frontend/": ["./src/frontend/"],
+
+      "@components/*": ["./src/renderer/components/*"],
+      "@hooks/*": ["./src/renderer/hooks/*"],
+      "@styles/*": ["./src/renderer/styles/*"],
+      "@assets/*": ["./src/renderer/assets/*"],
+      "@tabs/*": ["./src/renderer/tabs/*"],
+
+      "@components": ["./src/renderer/components"],
+      "@hooks": ["./src/renderer/hooks"],
+      "@styles": ["./src/renderer/styles"],
+      "@assets": ["./src/renderer/assets"],
+      "@tabs": ["./src/renderer/tabs"]
+    }
+  },
+  "include": ["src", "backend"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
