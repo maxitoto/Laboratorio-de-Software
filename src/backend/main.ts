@@ -2,6 +2,8 @@ import { app, BrowserWindow } from 'electron';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { startHandlers } from './handles';
+import { db } from './database/connection';
+import { migrate } from 'drizzle-orm/libsql/migrator';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = join(__dirname, '../../');
@@ -44,6 +46,7 @@ function createWindow() {
 app.disableHardwareAcceleration();
 
 app.whenReady().then(async () => {
+  
   
   startHandlers();
   createWindow();
