@@ -24,6 +24,11 @@ export default defineConfig({
       main: {
         entry: 'src/backend/main.ts',
         vite: {
+          build: {
+            rolldownOptions: {
+              external: ['@libsql/client', 'drizzle-orm'],
+            }
+          },
           resolve: { alias: aliasConfig } 
         }
       },

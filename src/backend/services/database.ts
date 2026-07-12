@@ -1,20 +1,30 @@
+import { agentesRepository } from "@backend/repositories/agentes.repository";
+import { dbCommunication } from "@backend/dbCommunication";
+import { NuevoAgente, NuevoVehiculo } from "@models/schema";
+import { vehiculosRepository } from "@backend/repositories/vehiculos.repository";
+
 // backend/services/database.ts
 export const databaseService = {
-  getData: async (id: string) => `Datos reales de BD para ${id}`,
-  saveConfig: async (cfg: string) => { 
-    console.log(cfg); 
-    return true; 
+  obtenerAgentes: async () => {
+    return await agentesRepository.obtenerTodos();
   },
-  getAgenteLocalizacion: async (legajo: string) => {
-    // Aquí iría tu consulta real a la base de datos
-    return { 
-      legajo, 
-      hubAsignado: 'Ushuaia', 
-      estado: 'Activo' 
-    };
+
+  registrarNuevoAgente: async (agente: NuevoAgente) => {
+    return await agentesRepository.crear(agente);
   },
-  registrarVehiculo: async (dominio: string, locacion: 'Ushuaia' | 'Rio Grande' | 'Tolhuin') => {
-    // Aquí iría la lógica de persistencia distribuida
-    return `Vehículo ${dominio} sincronizado correctamente en el nodo de ${locacion}.`;
-  }
+
+  // Aquí implementaremos luego StartDBComunication.ts para transacciones complejas
+  sincronizarNodo: async (hub: 'Ushuaia' | 'Rio Grande' | 'Tolhuin') => {
+    const agentesDelHub = await agentesRepository.obtenerPorHub(hub);
+    return `Se encontraron ${agentesDelHub.length} registros en el nodo ${hub}.`;
+  },
+  asignarPatrullero: async (legajoAgente: string, dominioVehiculo: string) => {
+    return await dbCommunication.asignarPatrullero(legajoAgente, dominioVehiculo);
+  },
+  obtenerVehiculos: async () => {
+    return await vehiculosRepository.obtenerTodos();
+  },
+  registrarNuevoVehiculo: async (vehiculo: NuevoVehiculo) => {
+    return await vehiculosRepository.crear(vehiculo);
+  },
 };
