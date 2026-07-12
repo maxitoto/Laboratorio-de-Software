@@ -7,6 +7,11 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = join(__dirname, '../../');
 
 export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'];
+
+if (VITE_DEV_SERVER_URL) {
+  process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+}
+
 export const MAIN_DIST = join(process.env.APP_ROOT, 'dist-electron');
 export const RENDERER_DIST = join(process.env.APP_ROOT, 'dist');
 
@@ -35,6 +40,8 @@ function createWindow() {
     mainWindow.loadFile(join(RENDERER_DIST, 'index.html'));
   }
 }
+
+app.disableHardwareAcceleration();
 
 app.whenReady().then(async () => {
   

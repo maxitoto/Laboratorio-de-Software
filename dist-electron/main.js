@@ -1,25 +1,40 @@
 import { BrowserWindow, app, ipcMain } from "electron";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-//#region src/shared/services.ts
-var prodServices = {
-	getData: (id) => `Datos reales para ${id}`,
-	saveConfig: (cfg) => console.log(cfg)
-};
-var devServices = {
-	resetDatabase: () => "Base de datos reseteada",
-	logDebugInfo: (info) => console.log(info)
-};
+//#endregion
+//#region src/backend/services/index.ts
 var allServices = {
-	...prodServices,
-	...devServices
+	servicioBD: {
+		getData: async (id) => `Datos reales de BD para ${id}`,
+		saveConfig: async (cfg) => {
+			console.log(cfg);
+			return true;
+		},
+		getAgenteLocalizacion: async (legajo) => {
+			return {
+				legajo,
+				hubAsignado: "Ushuaia",
+				estado: "Activo"
+			};
+		},
+		registrarVehiculo: async (dominio, locacion) => {
+			return `Vehículo ${dominio} sincronizado correctamente en el nodo de ${locacion}.`;
+		}
+	},
+	servicioDev: {
+		resetDatabase: async () => "Base de datos reseteada",
+		logDebugInfo: async (info) => console.log(info)
+	}
 };
 //#endregion
 //#region src/backend/handles.ts
 function startHandlers() {
-	Object.entries(allServices).forEach(([channel, handler]) => {
-		ipcMain.handle(channel, (_event, ...args) => {
-			return handler(...args);
+	Object.entries(allServices).forEach(([namespace, service]) => {
+		Object.entries(service).forEach(([methodName, handler]) => {
+			const channel = `${namespace}:${methodName}`;
+			ipcMain.handle(channel, async (_event, ...args) => {
+				return handler(...args);
+			});
 		});
 	});
 }
@@ -28,6 +43,7 @@ function startHandlers() {
 var __dirname = dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = join(__dirname, "../../");
 var VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
+if (VITE_DEV_SERVER_URL) process.env["ELECTRON_DISABLE_SECURITY_WARNINGS"] = "true";
 var MAIN_DIST = join(process.env.APP_ROOT, "dist-electron");
 var RENDERER_DIST = join(process.env.APP_ROOT, "dist");
 process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? join(process.env.APP_ROOT, "public") : RENDERER_DIST;
@@ -47,6 +63,7 @@ function createWindow() {
 	if (VITE_DEV_SERVER_URL) mainWindow.loadURL(VITE_DEV_SERVER_URL);
 	else mainWindow.loadFile(join(RENDERER_DIST, "index.html"));
 }
+app.disableHardwareAcceleration();
 app.whenReady().then(async () => {
 	startHandlers();
 	createWindow();
