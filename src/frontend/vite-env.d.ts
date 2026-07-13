@@ -4,6 +4,6 @@ import type { ElectronAPI } from '@shared/ipc.types';
 
 declare global {
   interface Window {
-    apis: ElectronAPI;
+    apis: apis;
   }
 }

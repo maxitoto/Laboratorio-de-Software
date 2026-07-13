@@ -23,3 +23,12 @@ dist-electron
 *.njsproj
 *.sln
 *.sw?
+
+# Base de datos y variables entorno
+*.db
+local.db-info
+local.db-shm
+local.db-wal
+drizzle
+drizzle/*
+.env

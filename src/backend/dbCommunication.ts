@@ -1,6 +1,7 @@
 import { agentes, vehiculos } from '@models/schema';
 import { db } from '@backend/database/connection';
 import { eq } from 'drizzle-orm';
+import { agentesRepository } from '@backend/repositories/agentes.repository';
 
 export const dbCommunication = {
   /**
@@ -13,7 +14,7 @@ export const dbCommunication = {
     return await db.transaction(async (tx) => {
         
       // 1. Consulta SQL directa y optimizada (No cargamos toda la tabla en RAM)
-      const agente = await tx.select().from(agentes).where(eq(agentes.legajo, legajoAgente)).get();
+      const agente = await agentesRepository.obtenerAgentePorLegajo(legajoAgente);
       if (!agente) {
         // Lanzar el error obliga a Drizzle a ejecutar un ROLLBACK automático
         throw new Error(`Agente con legajo ${legajoAgente} no encontrado.`);

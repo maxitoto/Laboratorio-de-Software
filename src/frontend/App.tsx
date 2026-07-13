@@ -61,6 +61,7 @@ function App() {
         setLegajoInput('');
         setDominioInput('');
         cargarAgentes();
+        cargarVehiculos();
       })
       .catch((err) => {
         // Si el vehículo no existe, Drizzle hace Rollback y el error llega hasta React
@@ -105,7 +106,7 @@ function App() {
           />
           <input 
             type="text" 
-            placeholder="Dominio Patrullero" 
+            placeholder="Vehículo (Ej: VH-123)" 
             value={dominioInput} 
             onChange={(e) => setDominioInput(e.target.value)}
             style={{ padding: '0.5rem', borderRadius: '4px', border: '1px solid #555', background: '#333', color: 'white' }}

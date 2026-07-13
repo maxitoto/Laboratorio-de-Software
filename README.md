@@ -70,3 +70,29 @@ Compila el frontend y el backend, y genera el ejecutable final usando `electron-
 ```bash
 pnpm run build
 ```
+
+### Base de Datos Local
+
+Ejecutar la creación
+```bash
+pnpm run db:generate
+```
+
+Ejecutar App
+```bash
+pnpm run dev
+```
+
+### Base de Datos Remoto
+
+Crear una cuenta en [Turso](https://app.turso.tech/). 
+Crear una base de datos (vacía) y generar credenciales nuevas.  
+Reemplazar en .env.example y cambiar el nombre a .env 
+Empujar el esquema hacia Turso. 
+```bash
+pnpm run db:push
+```
+Ejecutar App
+```bash
+pnpm run dev
+```
