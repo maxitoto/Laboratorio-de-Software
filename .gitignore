@@ -31,4 +31,5 @@ local.db-shm
 local.db-wal
 drizzle
 drizzle/*
+local.*
 .env

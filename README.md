@@ -73,9 +73,14 @@ pnpm run build
 
 ### Base de Datos Local
 
-Ejecutar la creación
+Ejecutar la creación de la base de datos
 ```bash
 pnpm run db:generate
+```
+
+Empujar el esquema a la base de datos
+```bash
+pnpm run db:push
 ```
 
 Ejecutar App
@@ -86,8 +91,11 @@ pnpm run dev
 ### Base de Datos Remoto
 
 Crear una cuenta en [Turso](https://app.turso.tech/). 
+
 Crear una base de datos (vacía) y generar credenciales nuevas.  
+
 Reemplazar en .env.example y cambiar el nombre a .env 
+
 Empujar el esquema hacia Turso. 
 ```bash
 pnpm run db:push
